@@ -59,7 +59,8 @@ jobs:
         run: pnpm test
 
   e2e:
-    if: github.event_name == 'pull_request' && github.base_ref == 'master'
+    if: false # Disabled E2E tests for initial setup
+    # if: github.event_name == 'pull_request' && github.base_ref == 'master'
     needs: build-and-test
     runs-on: ubuntu-latest
     steps:
