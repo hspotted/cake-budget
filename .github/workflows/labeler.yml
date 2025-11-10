@@ -10,6 +10,7 @@ permissions:
 
 jobs:
   label:
+    if: false  # Temporarily disabled
     runs-on: ubuntu-latest
     steps:
       - uses: actions/labeler@v4
