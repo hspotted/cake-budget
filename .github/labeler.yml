@@ -1,18 +1,35 @@
-# Auto-label configuration
-frontend: 'src/app/**'
+# Auto-label configuration for v5
+frontend:
+  - changed-files:
+    - any-glob-to-any-file: 'src/app/**'
+
 config:
-  - 'biome.json'
-  - 'tsconfig.json'
-  - 'postcss.config.mjs'
-  - '.vscode/**'
+  - changed-files:
+    - any-glob-to-any-file:
+      - 'biome.json'
+      - 'tsconfig.json'
+      - 'postcss.config.mjs'
+      - '.vscode/**'
+
 ci:
-  - '.github/workflows/**'
-  - '.github/labeler.yml'
+  - changed-files:
+    - any-glob-to-any-file:
+      - '.github/workflows/**'
+      - '.github/labeler.yml'
+
 docs:
-  - 'README.md'
-  - 'docs/**'
+  - changed-files:
+    - any-glob-to-any-file:
+      - 'README.md'
+      - 'docs/**'
+
 tests:
-  - '__tests__/**'
-  - 'playwright.config.ts'
-  - 'vitest.config.ts'
-chore: 'package.json'
+  - changed-files:
+    - any-glob-to-any-file:
+      - '__tests__/**'
+      - 'playwright.config.ts'
+      - 'vitest.config.ts'
+
+chore:
+  - changed-files:
+    - any-glob-to-any-file: 'package.json'
