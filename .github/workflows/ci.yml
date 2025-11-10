@@ -2,9 +2,9 @@ name: CI
 
 on:
   pull_request:
-    branches: [development, production]
+    branches: [development, master]
   push:
-    branches: [development, production]
+    branches: [development, master]
   workflow_dispatch:
 
 permissions:
@@ -17,13 +17,13 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  block-direct-production-push:
-    name: Block direct pushes to production
-    if: github.event_name == 'push' && github.ref == 'refs/heads/production'
+  block-direct-master-push:
+    name: Block direct pushes to master
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
     steps:
       - run: |
-          echo "Direct pushes to 'production' are blocked. Open a Pull Request instead."
+          echo "Direct pushes to 'master' are blocked. Open a Pull Request instead."
           exit 1
 
   commitlint:
@@ -59,7 +59,7 @@ jobs:
         run: pnpm test
 
   e2e:
-    if: github.event_name == 'pull_request' && github.base_ref == 'production'
+    if: github.event_name == 'pull_request' && github.base_ref == 'master'
     needs: build-and-test
     runs-on: ubuntu-latest
     steps:
