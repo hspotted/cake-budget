@@ -1,6 +1,7 @@
 import { checkout, polar, portal, usage } from '@polar-sh/better-auth'
 import { betterAuth } from 'better-auth'
 import { drizzleAdapter } from 'better-auth/adapters/drizzle'
+import { nextCookies } from 'better-auth/next-js'
 import {
   admin,
   apiKey,
@@ -60,6 +61,7 @@ export const auth = betterAuth({
         portal(),
         usage()
       ]
-    })
+    }),
+    nextCookies()
   ]
 })
