@@ -1,5 +1,9 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+## 🧪 Testing PR Labeler
+
+This line was added to test the automatic labeling functionality.
+
 ## Getting Started
 
 First, run the development server:
