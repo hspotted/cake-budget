@@ -1,24 +1,35 @@
-# Auto-label configuration
-# Create corresponding labels in the repo (Settings > Labels) matching the keys below.
-# Path-based labels
+# Auto-label configuration for v5
 frontend:
-  - 'src/app/**'
-config:
-  - 'biome.json'
-  - 'tsconfig.json'
-  - 'postcss.config.mjs'
-  - '.vscode/**'
-ci:
-  - '.github/workflows/**'
-  - '.github/labeler.yml'
-docs:
-  - 'README.md'
-  - 'docs/**'
-tests:
-  - '__tests__/**'
-  - 'playwright.config.ts'
-  - 'vitest.config.ts'
+  - changed-files:
+    - any-glob-to-any-file: 'src/app/**'
 
-# Fallback: label PRs touching only devDependencies changes in package.json
+config:
+  - changed-files:
+    - any-glob-to-any-file:
+      - 'biome.json'
+      - 'tsconfig.json'
+      - 'postcss.config.mjs'
+      - '.vscode/**'
+
+ci:
+  - changed-files:
+    - any-glob-to-any-file:
+      - '.github/workflows/**'
+      - '.github/labeler.yml'
+
+docs:
+  - changed-files:
+    - any-glob-to-any-file:
+      - 'README.md'
+      - 'docs/**'
+
+tests:
+  - changed-files:
+    - any-glob-to-any-file:
+      - '__tests__/**'
+      - 'playwright.config.ts'
+      - 'vitest.config.ts'
+
 chore:
-  - 'package.json'
+  - changed-files:
+    - any-glob-to-any-file: 'package.json'

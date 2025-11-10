@@ -2,7 +2,7 @@ module.exports = {
   extends: ['@commitlint/config-conventional'],
   rules: {
     'header-max-length': [2, 'always', 72],
-    'subject-case': [2, 'always', ['sentence-case', 'lower-case']],
+    'subject-case': [0], // Disabled to allow CI/CD, API, etc.
     'subject-full-stop': [2, 'never', '.'],
     'scope-case': [2, 'always', 'lower-case'],
     'type-enum': [

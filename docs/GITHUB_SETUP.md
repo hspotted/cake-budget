@@ -1,52 +1,52 @@
 # Configuração GitHub
 
-## 1. Configuração Manual Necessária
+# Configuração GitHub
 
-### Alterar Branch Padrão
-1. Vá para https://github.com/hspotted/cake-budget
-2. Clique em **Settings** (tab)
-3. No menu lateral, clique em **General**
-4. Na secção **Default branch**, clique no ícone de editar
-5. Selecione `development` como branch padrão
-6. Confirme a alteração
+## 1. Estrutura de Branches
 
-### Deletar Branch Master
-Após alterar a branch padrão:
-1. Ainda em **Settings** > **General**
-2. Na secção **Default branch**, agora pode deletar a branch `master`
-3. Ou via linha de comando: `git push origin --delete master`
+- **`development`** - Branch de desenvolvimento e staging
+- **`master`** - Branch de produção
 
-## 2. Configurações de Branch Protection (A fazer após passo 1)
+## 2. Configurações de Branch Protection (Automático via tools)
 
-### Para a branch `production`:
+### Para a branch `master`:
 - Require a pull request before merging
 - Require status checks to pass before merging
 - Restrict pushes that create files larger than 100MB
+- Block direct pushes (apenas via PR)
 
-### Para a branch `development`:  
+### Para a branch `development`:
 - Require status checks to pass before merging (CI)
 
-## 3. Issues e PR Templates
+## 3. Workflow
+
+- **Desenvolvimento**: Trabalha-se na branch `development`
+- **Deploy para produção**: PR de `development` → `master`
+- **CI/CD**: Testes correm em ambas as branches
+- **E2E tests**: Apenas em PRs para `master`
+
+## 4. Issues e PR Templates
 
 Após a configuração manual, posso criar:
 - Templates para Issues
 - Templates para Pull Requests
 - Configuração de labels
 
-## 4. Próximos Passos
+## 5. Próximos Passos
 
-1. Complete a configuração manual acima
-2. Execute: `pnpm run setup:github` (comando que vou criar)
-3. Configure a Vercel
+1. Configurar branch protection rules automaticamente
+2. Configure a Vercel com:
+   - `master` → Production
+   - `development` → Preview
 
-## Comandos para limpar localmente
-
-Após alterar a branch padrão no GitHub:
+## Comandos úteis
 
 ```bash
-# Deletar referência local para master remoto
-git remote set-head origin development
+# Trabalhar em development
+git checkout development
+git pull origin development
 
-# Deletar branch master remota
-git push origin --delete master
+# Criar PR para master
+git push origin development
+# Depois criar PR no GitHub: development → master
 ```
