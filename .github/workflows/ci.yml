@@ -1,0 +1,85 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [development, production]
+  push:
+    branches: [development, production]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: write
+  checks: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  block-direct-production-push:
+    name: Block direct pushes to production
+    if: github.event_name == 'push' && github.ref == 'refs/heads/production'
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "Direct pushes to 'production' are blocked. Open a Pull Request instead."
+          exit 1
+
+  commitlint:
+    name: Commitlint
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: wagoid/commitlint-github-action@v5
+        with:
+          configFile: commitlint.config.cjs
+
+  build-and-test:
+    runs-on: ubuntu-latest
+    needs: commitlint
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+      - run: pnpm install --frozen-lockfile
+      - name: Biome check
+        run: pnpm lint
+      - name: Unit tests
+        run: pnpm test
+
+  e2e:
+    if: github.event_name == 'pull_request' && github.base_ref == 'production'
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+      - run: pnpm install --frozen-lockfile
+      - name: Build (production)
+        run: pnpm build
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+      - name: Run E2E tests
+        env:
+          NEXT_TELEMETRY_DISABLED: '1'
+          PLAYWRIGHT_JUNIT_OUTPUT_NAME: 'junit.xml'
+        run: pnpm e2e --reporter=dot,github

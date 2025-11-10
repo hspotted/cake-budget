@@ -1,0 +1,9 @@
+# Run unit tests before pushing
+pnpm test
+
+# Prevent direct pushes to protected branches
+branch=$(git rev-parse --abbrev-ref HEAD)
+if [ "$branch" = "production" ]; then
+	echo "Direct pushes to 'production' are blocked. Open a Pull Request instead."
+	exit 1
+fi

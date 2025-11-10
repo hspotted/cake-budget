@@ -1,27 +1,77 @@
 {
-  "name": "cake-budget",
-  "version": "0.1.0",
+  "name": "@hspotted/cake-budget",
+  "version": "0.0.1",
   "private": true,
+  "author": {
+    "name": "Henrique Fernandes",
+    "email": "hspotted@gmail.com",
+    "url": "https://www.cakebudget.eu"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "biome check",
-    "format": "biome format --write"
+    "format": "biome format --write",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:ui": "vitest --ui",
+    "test:cov": "vitest run --coverage",
+    "e2e": "playwright test",
+    "e2e:ui": "playwright test --ui",
+    "e2e:report": "playwright show-report",
+    "prepare": "husky",
+    "commit": "cz",
+    "release": "standard-version",
+    "release:minor": "standard-version -r minor",
+    "release:patch": "standard-version -r patch",
+    "release:auto": "standard-version --tag-prefix=v && git push --follow-tags origin HEAD && git push origin --tags"
+  },
+  "standard-version": {
+    "scripts": {
+      "posttag": "echo 'Tag created'"
+    }
+  },
+  "lint-staged": {
+    "*.{js,ts,tsx,jsx,json,css,md}": [
+      "biome format --write",
+      "biome check",
+      "pnpm test --run --reporter=default || echo 'Skipping failing tests in pre-commit'"
+    ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
   },
   "dependencies": {
+    "next": "16.0.1",
     "react": "19.2.0",
-    "react-dom": "19.2.0",
-    "next": "16.0.1"
+    "react-dom": "19.2.0"
   },
   "devDependencies": {
-    "babel-plugin-react-compiler": "1.0.0",
-    "typescript": "^5",
+    "@biomejs/biome": "2.2.4",
+    "@playwright/test": "^1.56.1",
+    "@tailwindcss/postcss": "^4",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.6.1",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "@tailwindcss/postcss": "^4",
+    "@vitest/coverage-v8": "^4.0.8",
+    "@vitest/ui": "^4.0.8",
+    "babel-plugin-react-compiler": "1.0.0",
+    "jsdom": "^27.1.0",
     "tailwindcss": "^4",
-    "@biomejs/biome": "2.2.0"
+    "typescript": "^5",
+    "vitest": "^4.0.8",
+    "@commitlint/cli": "^20.1.0",
+    "@commitlint/config-conventional": "^20.0.0",
+    "commitizen": "^4.3.1",
+    "cz-conventional-changelog": "^3.3.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.6",
+    "standard-version": "^9.5.0"
   }
 }

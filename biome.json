@@ -1,5 +1,5 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.2.0/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.2.4/schema.json",
   "vcs": {
     "enabled": true,
     "clientKind": "git",
@@ -12,7 +12,35 @@
   "formatter": {
     "enabled": true,
     "indentStyle": "space",
-    "indentWidth": 2
+    "indentWidth": 2,
+    "attributePosition": "multiline",
+    "bracketSameLine": false,
+    "bracketSpacing": true
+  },
+  "javascript": {
+    "formatter": {
+      "arrowParentheses": "asNeeded",
+      "attributePosition": "multiline",
+      "bracketSameLine": false,
+      "bracketSpacing": true,
+      "jsxQuoteStyle": "double",
+      "indentStyle": "space",
+      "indentWidth": 2,
+      "lineWidth": 80,
+      "quoteStyle": "single",
+      "trailingCommas": "none",
+      "operatorLinebreak": "before",
+      "semicolons": "asNeeded",
+      "quoteProperties": "asNeeded"
+    }
+  },
+  "json": {
+    "formatter": {
+      "indentStyle": "space",
+      "indentWidth": 2,
+      "lineWidth": 80,
+      "trailingCommas": "none"
+    }
   },
   "linter": {
     "enabled": true,
@@ -30,7 +58,25 @@
   "assist": {
     "actions": {
       "source": {
-        "organizeImports": "on"
+        "organizeImports": {
+          "level": "on",
+          "options": {
+            "identifierOrder": "lexicographic",
+            "groups": [
+              ":TYPES:",
+              ":BLANK_LINE:",
+              ":NODE:",
+              ["next", "next/**", "react", "react-dom"],
+              ":PACKAGE:",
+              ":BLANK_LINE:",
+              ["@/**", "#*/**"],
+              ":BLANK_LINE:",
+              ["~/**"],
+              ":BLANK_LINE:",
+              ["./**"]
+            ]
+          }
+        }
       }
     }
   }
